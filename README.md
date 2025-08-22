@@ -1,7 +1,7 @@
 # Voyago : A Tour Booking App  
 
 A **MERN stack** (MongoDB, Express, React, Node.js) based **Tour Booking Application** where users can:  
-- Search tours by **location, date, and group size**  
+- Search tours by  
 - View detailed tour information  
 - Book tours with **Stripe Payment Integration**  
 - Store booking & tour data in **MongoDB**  
@@ -39,7 +39,7 @@ A **MERN stack** (MongoDB, Express, React, Node.js) based **Tour Booking Applica
 
 ### 1️⃣ Clone the repo  
 ```bash
-git clone https://github.com/your-username/tour-booking-app.git
+git clone https://github.com/mdshoaib9900/Voyago.git
 cd tour-booking-app
 ```
 
