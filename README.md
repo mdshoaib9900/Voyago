@@ -78,10 +78,10 @@ npm start
 ## 📸 Screenshots  
 
 <p align="center">
-  <img src="screenshots/home.png" alt="Home Page" width="200"/>
-  <img src="screenshots/tours.png" alt="Tour List" width="200"/>
-  <img src="screenshots/payment.png" alt="Payment Page" width="200"/>
-  <img src="screenshots/success.png" alt="Order Success" width="200"/>
+  <img src="assets/Screenshot 2025-08-22 230716.png" alt="Home Page" width="200"/>
+  <img src="assets/Screenshot 2025-08-22 230740.png" alt="Tour List" width="200"/>
+  <img src="assets/Screenshot 2025-08-22 230825.png" alt="Payment Page" width="200"/>
+  <img src="assets/Screenshot 2025-08-22 230716.png" alt="Order Success" width="200"/>
 </p>
 
 ## 👨‍💻 Author  
