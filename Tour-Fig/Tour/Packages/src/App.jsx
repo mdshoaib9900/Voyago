@@ -57,6 +57,7 @@ const handleSearch = (results) => {
       <BookingProvider>
       <Routes>
         <Route path="/" element={<Home onSearch={handleSearch} />} />
+      <Route path="/OrderSuccess" element={<OrderSuccess />} />
         <Route
           path="/search"
           element={

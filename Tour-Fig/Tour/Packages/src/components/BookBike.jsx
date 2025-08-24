@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import OrderSuccess from "./OrderSuccess";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   Box,
   Grid,
@@ -23,8 +26,43 @@ const serviceOptions = [
 ];
  
 const BookBike = () => {
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
+  const [telephone,setTelephone]=useState("");
+  const [service,setService]=useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    // Get user from localStorage (saved at login)
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setName(user.name || "");  
+      setEmail(user.email || "");
+    }
+  }, []);
+
+const handleBooking = async () => {
+  try {
+    const bookingData = {
+      name,
+      email,
+      telephone,
+      service,
+      date: selectedDate,
+      time: selectedTime,
+    };
+
+    const res = await axios.post("http://localhost:5000/api/bikeBookings", bookingData);
+    navigate("/OrderSuccess");
+  } catch (err) {
+    console.error(" Error saving booking:", err);
+    alert("Booking failed. Try again!");
+  }
+};
+
  
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -103,6 +141,8 @@ const BookBike = () => {
                     Name and Surname
                     <TextField
                       // label="Name and Surname"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       placeholder="Enter your Name and Surname"
                       variant="outlined"
                       fullWidth
@@ -125,6 +165,8 @@ const BookBike = () => {
                     Email Address
                     <TextField
                       // label="Email Address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your Email Address"
                       variant="outlined"
                       fullWidth
@@ -147,6 +189,8 @@ const BookBike = () => {
                     Telephone Number
                     <TextField
                       // label="Telephone Number"
+                      value={telephone}
+                      onChange={(e)=> setTelephone(e.target.value)}
                       placeholder="Enter your Telephone Number"
                       variant="outlined"
                       fullWidth
@@ -169,6 +213,8 @@ const BookBike = () => {
                     Service Type
                     <TextField
                       label="Service the Type"
+                      value={service}
+                      onChange={(e)=>setService(e.target.value)}
                       placeholder="Select the Service type"
                       select
                       variant="outlined"
@@ -274,6 +320,7 @@ const BookBike = () => {
                 <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
                   <Button
                     variant="contained"
+                    onClick={handleBooking}
                     sx={{
                       backgroundColor: "#FA8B02",
                       color: "#fff",
@@ -323,3 +370,155 @@ const BookBike = () => {
 };
  
 export default BookBike;
+// import {
+//   Container,
+//   TextField,
+//   Button,
+//   Typography,
+//   MenuItem,
+// } from "@mui/material";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+// import { DatePicker, TimePicker } from "@mui/x-date-pickers";
+// import axios from "axios";
+// import { format } from "date-fns";
+
+// const BookBike = () => {
+//   const [name, setName] = useState("");
+//   const [email, setEmail] = useState("");
+//   const [telephone, setTelephone] = useState("");
+//   const [service, setService] = useState("");
+//   const [selectedDate, setSelectedDate] = useState(null);
+//   const [selectedTime, setSelectedTime] = useState(null);
+
+//   // ✅ Load user data from localStorage
+//   useEffect(() => {
+//     const storedUser = localStorage.getItem("user");
+//     if (storedUser) {
+//       try {
+//         const user = JSON.parse(storedUser);
+//         setName(user?.name || "");
+//         setEmail(user?.email || "");
+//       } catch {
+//         console.error("Invalid user data in localStorage");
+//       }
+//     }
+//   }, []);
+
+//   // ✅ Handle booking
+//   const handleBooking = async () => {
+//     if (!name || !email || !telephone || !service || !selectedDate || !selectedTime) {
+//       alert("⚠️ Please fill all fields before booking.");
+//       return;
+//     }
+
+//     const bookingData = {
+//       name,
+//       email,
+//       telephone,
+//       service,
+//       date: selectedDate ? format(selectedDate, "yyyy-MM-dd") : null,
+//       time: selectedTime ? format(selectedTime, "HH:mm") : null,
+//     };
+
+//     try {
+//       const res = await axios.post(
+//         "http://localhost:5000/api/bikeBookings",
+//         bookingData
+//       );
+//       console.log("✅ Saved booking:", res.data);
+//       alert("🎉 Booking successful!");
+//       // 👉 You can redirect to a success page here
+//       // navigate("/order-success");
+//     } catch (err) {
+//       console.error("❌ Error saving booking:", err.response?.data || err.message);
+//       alert("Booking failed. Please try again.");
+//     }
+//   };
+
+//   return (
+//     <LocalizationProvider dateAdapter={AdapterDateFns}>
+//       <Container maxWidth="sm" style={{ marginTop: "50px" }}>
+//         <Typography variant="h4" gutterBottom>
+//           Book a Bike Ride
+//         </Typography>
+
+//         {/* Name (auto-filled from login) */}
+//         <TextField
+//           fullWidth
+//           label="Name"
+//           value={name}
+//           onChange={(e) => setName(e.target.value)}
+//           margin="normal"
+//         />
+
+//         {/* Email (auto-filled from login) */}
+//         <TextField
+//           fullWidth
+//           label="Email"
+//           value={email}
+//           onChange={(e) => setEmail(e.target.value)}
+//           margin="normal"
+//         />
+
+//         {/* Telephone */}
+//         <TextField
+//           fullWidth
+//           label="Telephone"
+//           type="tel"
+//           inputProps={{ pattern: "[0-9]{10}" }}
+//           value={telephone}
+//           onChange={(e) => setTelephone(e.target.value)}
+//           margin="normal"
+//           placeholder="Enter 10 digit number"
+//         />
+
+//         {/* Service selection */}
+//         <TextField
+//           select
+//           fullWidth
+//           label="Select Service"
+//           value={service}
+//           onChange={(e) => setService(e.target.value)}
+//           margin="normal"
+//         >
+//           <MenuItem value="Bike Ride">Bike Ride</MenuItem>
+//           <MenuItem value="Scooter Ride">Scooter Ride</MenuItem>
+//         </TextField>
+
+//         {/* Date picker */}
+//         <DatePicker
+//           label="Select Date"
+//           value={selectedDate}
+//           onChange={(newDate) => setSelectedDate(newDate)}
+//           renderInput={(params) => (
+//             <TextField fullWidth margin="normal" {...params} />
+//           )}
+//         />
+
+//         {/* Time picker */}
+//         <TimePicker
+//           label="Select Time"
+//           value={selectedTime}
+//           onChange={(newTime) => setSelectedTime(newTime)}
+//           renderInput={(params) => (
+//             <TextField fullWidth margin="normal" {...params} />
+//           )}
+//         />
+
+//         {/* Submit button */}
+//         <Button
+//           variant="contained"
+//           color="primary"
+//           fullWidth
+//           onClick={handleBooking}
+//           style={{ marginTop: "20px" }}
+//         >
+//           Book Now
+//         </Button>
+//       </Container>
+//     </LocalizationProvider>
+//   );
+// };
+
+// export default BookBike;

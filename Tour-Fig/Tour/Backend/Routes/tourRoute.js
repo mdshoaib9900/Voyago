@@ -1,16 +1,16 @@
 // backend/Routes/tourRoute.js
 import express from "express";
-import { getTours, getTourById, createTour } from "../Controllers/Tour.js";
+import { getTours, getTourById, createTour } from "../Controller/tourController.js";
 
 const router = express.Router();
 
-// ✅ Create a new tour
+// Create a new tour
 router.post("/", createTour);
 
-// ✅ Get all tours (with filters)
+// Get all tours (with filters)
 router.get("/", getTours);
 
-// ✅ Get a single tour by ID
+// Get a single tour by ID
 router.get("/:id", getTourById);
 
 export default router;

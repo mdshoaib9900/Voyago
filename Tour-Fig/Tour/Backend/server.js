@@ -10,6 +10,7 @@ import { fileURLToPath } from "url";
 import authRoutes from "./Routes/authRoute.js";
 import tourRoutes from "./Routes/tourRoute.js";
 import bookingRoutes from "./Routes/bookingRoute.js";
+import BikeBookingRoute from "./Routes/BikeBookingRoute.js";
 
 dotenv.config();
 const app = express();
@@ -29,7 +30,7 @@ console.log("Serving images from:", path.join(__dirname, "Uploads"));
 // Enable CORS for frontend
 app.use(
   cors({
-    origin: ["http://localhost:5174", "http://localhost:5175"],
+    origin: ["http://localhost:5174", "http://localhost:5175","http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -38,17 +39,18 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/tours", tourRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/bikeBookings", BikeBookingRoute);
 // ---------- MongoDB Connection ----------
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ MongoDB connection error:", err));
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.error(" MongoDB connection error:", err));
 
 // ---------- Start Server ----------
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
